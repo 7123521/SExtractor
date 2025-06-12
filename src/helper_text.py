@@ -65,8 +65,8 @@ def getBytesMax(text, NewEncodeName, maxLen):
 			print(ex)
 			return None, 0
 	totalLen = len(transData)
-	if cutoffLen > 0: #截断
-		transData = transData[0:cutoffLen]
+	# if cutoffLen > 0: #截断
+	# 	transData = transData[0:cutoffLen]
 	return transData, maxLen - totalLen
 
 #----------------------------------------------------------
@@ -80,26 +80,29 @@ def generateBytes(text, lenOrig, NewEncodeName):
 	if transData == None: return transData
 	#print('Diff', diff) 
 	#diff为预计最终差值，即原文字节长度减去不截断时的译文字节长度
-	if diff < 0:
-		dic = ExVar.cutoffDic
-		if text not in dic:
-			if ExVar.cutoffCopy:
-				dic[text] = [text, diff]
-			else:
-				dic[text] = ['', diff]
-		elif dic[text][0] != '':
-			#从cutoff字典读取
-			oldText = text
-			text = dic[oldText][0]
-			transData, diff = getBytesMax(text, NewEncodeName, lenOrig)
-			dic[oldText][1] = diff #刷新长度
-		if diff < 0:
-			#进行了截断
-			printWarning('译文长度超出原文，部分截断', text)
+	#if diff < 0:
+	#	dic = ExVar.cutoffDic
+	#	if text not in dic:
+	#		if ExVar.cutoffCopy:
+	#			dic[text] = [text, diff]
+	#		else:
+	#			dic[text] = ['', diff]
+	#	elif dic[text][0] != '':
+	#		#从cutoff字典读取
+	#		oldText = text
+	#		text = dic[oldText][0]
+	#		transData, diff = getBytesMax(text, NewEncodeName, lenOrig)
+	#		dic[oldText][1] = diff #刷新长度
+	#	if diff < 0:
+	#		#进行了截断
+	#			printWarning('译文长度超出原文，部分截断', text)
+ 
+	# 把截断功能注释掉了
+ 
 	lost = lenOrig - len(transData) #lost为截断后实际差值
-	if lost < 0:
-		printError('截断后仍然超长')
-		return None
+	#if lost < 0:
+	#	printError('截断后仍然超长')
+	#	return None
 	if lost > 0:
 		# 右边补足空格
 		#print(transData)
@@ -112,6 +115,7 @@ def generateBytes(text, lenOrig, NewEncodeName):
 		for start in range(end, lost): #剩余填充英文空格
 			empty[start] = BytePadding
 		transData += empty
+		printWarning('译文长度小于原文填充空格',text)
 	return transData
 
 #----------------------------------------------------------

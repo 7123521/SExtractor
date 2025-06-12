@@ -4,7 +4,7 @@ from common import *
 from helper_text import generateBytes, getBytes, keepBytes
 
 #OldEncodeName = 'cp932' #仅用于TXT模式截断和JIS替换
-NewEncodeName = 'gbk' #仅用于TXT模式截断
+NewEncodeName = 'utf-8' #仅用于TXT模式截断
 
 class ParseVar():
 	contentIndex = 0
@@ -256,7 +256,7 @@ def dealTransLine(trans, orig):
 		transData = getBytes(trans, ExVar.JisEncodeName)
 		trans = transData.decode(ExVar.JisEncodeName)
 	elif ExVar.cutoff:
-		origData = orig.encode(ExVar.JisEncodeName)
+		origData = orig.encode(ExVar.OldEncodeName)
 		transData = generateBytes(trans, len(origData), NewEncodeName)
 		if transData == None:
 			return False
