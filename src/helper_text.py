@@ -115,7 +115,7 @@ def generateBytes(text, lenOrig, NewEncodeName):
 		for start in range(end, lost): #剩余填充英文空格
 			empty[start] = BytePadding
 		transData += empty
-		printWarning('译文长度小于原文填充空格',text)
+		# printWarning('译文长度小于原文填充空格',text)
 	return transData
 
 #----------------------------------------------------------
